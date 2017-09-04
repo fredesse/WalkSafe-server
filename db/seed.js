@@ -1,3 +1,5 @@
+//DON'T USE THIS YET
+
 const dotenv = require('dotenv');
 const db = require('./config.js');
 
@@ -32,6 +34,14 @@ db.User.create({
 })
 .then(function() {
   db.City.create({
-    
+    cityName: 'Los Angeles',
+    Crimes: [
+      {
+        crimeType: 'Arson',
+        crimeTime: '08/29/2016 05:08:00 PM',
+      }
+    ]
+  }, {
+    include: [db.Crime]
   })
 })

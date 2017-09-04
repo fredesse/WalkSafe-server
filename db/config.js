@@ -46,7 +46,7 @@ db
   City.hasMany(Crime);
   User.hasMany(Contact);
 
-  db.sync();
+  //db.sync();
 
   module.exports = {
     db: db,
@@ -55,6 +55,3 @@ db
     City: City,
     Crime: Crime
   };
-
-
-exports.module = db;

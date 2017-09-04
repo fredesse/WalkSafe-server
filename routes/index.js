@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const db = require('../db/config');
 
 //library for authentication
 const session = require('express-session');

@@ -1,4 +1,3 @@
-
 require('dotenv').config();
 
 var port = process.env.PORT || 1337;

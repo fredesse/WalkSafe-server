@@ -1,10 +1,8 @@
-//This file exports the api and authentication route as required by the request-handler/index.js
+//This file handles requests to the different routes as defined in the routes folder
 
 const api = require('./routes/api.js');
 const auth = require('./routes/auth.js');
 const path = require('path');
-
-console.log('this is the path:', path);
 
 exports.handler = function handler(req, res) {
   //split up a request URL at every '/'

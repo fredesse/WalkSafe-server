@@ -18,6 +18,5 @@ db.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
-//db.sync();
 
 module.exports = db;

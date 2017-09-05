@@ -3,14 +3,12 @@
 module.exports = {
   GET: {
     contacts: function getContacts(req, res) {
-      console.log('api/contacts get request');
-      res.send('get contacts');
+      console.log('api/contacts get request', req);
     }
   },
   POST: {
     contacts: function postContacts(req, res) {
-      console.log('api/contacts post request');
-      res.send('post contacts');
+      console.log('api/contacts post request', req);
     }
   }
 }

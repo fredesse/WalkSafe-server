@@ -20,14 +20,14 @@ db
   });
 
   const User = db.define('User', {
-    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
     username: Sequelize.STRING,
     email: Sequelize.STRING,
     avatarUrl: Sequelize.STRING,
     accessToken: Sequelize.STRING
   });
   const Contact = db.define('Contact', {
-    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
     contactName: Sequelize.STRING,
     phoneNumber: Sequelize.INTEGER,
   });
@@ -36,11 +36,16 @@ db
     cityName: Sequelize.STRING
   });
   const Crime = db.define('Crime', {
-    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
-    crimeType: Sequelize.STRING,
+    id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    crimeTypeId: Sequelize.INTEGER,
     crimeTime: Sequelize.STRING,
     longitude: Sequelize.DOUBLE,
     latitude: Sequelize.DOUBLE
+  });
+
+  const CrimeType = db.define('CrimeType', {
+    id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+    type: SEQUELIZE.STRING,
   });
 
   City.hasMany(Crime);

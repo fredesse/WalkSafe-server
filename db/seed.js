@@ -63,6 +63,7 @@ db.sequelize.sync({
     }, {
       include: [db.contact]
     })
+<<<<<<< 083bb2cab2609ada6cb1a369f30aced33c5ff59f
   })
   .then(() => {
     return  db.crime_type.bulkCreate(
@@ -135,4 +136,4 @@ const csvhandler = require('./csv/csv-handler');
 csvhandler();
 */
 /* csvHandler use when initial setup*/
-
+})

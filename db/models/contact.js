@@ -13,5 +13,9 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
+
+  Contact.associate = function(models) {
+    Contact.belongsTo(models.User);
+  }
   return Contact;
 }

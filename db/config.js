@@ -19,7 +19,6 @@ __dirname = __dirname + '/models'
 //reads all the files in the models directory and returns each schema
 fs.readdirSync(__dirname)
   .filter(function(file) {
-    //console.log('READ FILE file:', file);
     return (file.indexOf('.') !== 0) && (file !== 'index.js');
   })
   //enters each schema into the db object

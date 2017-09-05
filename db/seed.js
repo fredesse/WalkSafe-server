@@ -34,7 +34,7 @@ var queryStringLACounty = "COPY staging_la_counties (crime_date, crime_year, cri
 
 ///*
 db.sequelize.sync({
-  force:true
+  force: true
 })
   .then(() => {
     return  db.user.create({

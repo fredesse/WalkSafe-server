@@ -14,3 +14,5 @@ const User = db.define('User', {
     }
   }
 });
+
+exports.module = User;

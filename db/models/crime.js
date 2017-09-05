@@ -5,3 +5,5 @@ const Crime = db.define('Crime', {
   longitude: Sequelize.DOUBLE,
   latitude: Sequelize.DOUBLE
 });
+
+exports.module = Crime;

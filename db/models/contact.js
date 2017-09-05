@@ -12,3 +12,5 @@ const Contact = db.define('Contact', {
     }
   }
 });
+
+exports.module = Contact;

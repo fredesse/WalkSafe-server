@@ -18,7 +18,6 @@ var db = {};
 
 
 __dirname = __dirname + '/models'
-console.log('THIS IS THE DIRNAME', __dirname);
 //reads all the files in the models directory and returns each schema
 fs.readdirSync(__dirname)
   .filter(function(file) {
@@ -27,11 +26,10 @@ fs.readdirSync(__dirname)
   })
   //enters each schema into the db object
   .forEach(function(file) {
-    console.log('forEach file:', file);
     var model = sequelize.import(path.join(__dirname, file));
-    console.log('FS model', model);
     db[model.name] = model;
   });
+  console.log('This is the new db', db);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

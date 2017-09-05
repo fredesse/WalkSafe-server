@@ -1,10 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
   const User = sequelize.define('User', {
     id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    username: Sequelize.STRING,
-    email: Sequelize.STRING,
-    avatarUrl: Sequelize.STRING,
-    accessToken: Sequelize.STRING
+    username: DataTypes.STRING,
+    email: DataTypes.STRING,
+    avatarUrl: DataTypes.STRING,
+    accessToken: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

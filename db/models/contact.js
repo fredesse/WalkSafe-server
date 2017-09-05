@@ -1,8 +1,8 @@
 module.exports = function(sequelize, DataTypes) {
   const Contact = sequelize.define('Contact', {
-    id: {type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
-    contactName: Sequelize.STRING,
-    phoneNumber: Sequelize.INTEGER,
+    id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    contactName: DataTypes.STRING,
+    phoneNumber: DataTypes.INTEGER,
   }, {
     classMethods: {
       associate: function(models) {

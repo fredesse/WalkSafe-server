@@ -15,8 +15,6 @@ const sequelize = new Sequelize('walksafe', process.env.DB_USERNAME || 'postgres
 
 var db = {};
 
-
-
 __dirname = __dirname + '/models'
 //reads all the files in the models directory and returns each schema
 fs.readdirSync(__dirname)
@@ -36,5 +34,10 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+db.sequelize.sync();  //maybe we should not sync here
 
 module.exports = db;

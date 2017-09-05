@@ -5,19 +5,10 @@ module.exports = function(sequelize, DataTypes) {
     email: DataTypes.STRING,
     avatarUrl: DataTypes.STRING,
     accessToken: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: function(models) {
-        User.hasMany(models.Contact, {
-          foreignKey: 'userId',
-          as: 'contacts'
-        });
-      }
-    }
   });
-  //OR
-  // User.associate = function(models) {
-  //   User.hasMany(models.Contact);
-  // }
+
+  User.associate = function(models) {
+    User.hasMany(models.Contact);
+  }
   return User;
 }

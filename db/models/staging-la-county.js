@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  const staging_la_county = sequelize.define('staging_la_county', {
+  const Staging_la_county = sequelize.define('staging_la_county', {
     crime_date: DataTypes.DATE,
     crime_year: DataTypes.INTEGER,
     crime_category_number: DataTypes.INTEGER,
@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   });
-  return staging_la_county;
+  return Staging_la_county;
 }
 
 

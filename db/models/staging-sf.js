@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  const staging_sf = sequelize.define('staging_sf', {
+  const Staging_sf = sequelize.define('staging_sf', {
     incident_num: DataTypes.INTEGER,
     category: DataTypes.STRING,
     date: DataTypes.DATEONLY,
@@ -11,6 +11,6 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   });
-  return staging_sf;
+  return Staging_sf;
 }
 

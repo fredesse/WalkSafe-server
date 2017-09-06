@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  const user = sequelize.define('user', {
+  const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     username: DataTypes.STRING,
     email: DataTypes.STRING,
@@ -7,8 +7,8 @@ module.exports = function(sequelize, DataTypes) {
     access_token: DataTypes.STRING
   });
 
-  user.associate = function(models) {
-    user.hasMany(models.contact);
+  User.associate = function(models) {
+    User.hasMany(models.contact);
   }
-  return user;
+  return User;
 }

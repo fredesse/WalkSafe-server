@@ -1,7 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
-  const crime_type = sequelize.define('crimetype', {
+  const Crime_type = sequelize.define('crime_type', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     type: DataTypes.STRING,
   });
-  return crime_type;
+  return Crime_type;
 }

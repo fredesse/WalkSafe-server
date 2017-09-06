@@ -55,7 +55,7 @@ db.sequelize.sync({
       include: [db.contact]
     })
     .then(() => {
-      db.crimetype.bulkCreate(
+      db.crime_type.bulkCreate(
         [
           { type: "CRIMINAL HOMICIDE" },
           { type: "FORCIBLE RAPE" },

@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  const crime = sequelize.define('crime', {
+  const Crime = sequelize.define('crime', {
     id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     crime_type: DataTypes.STRING,
     crime_time: DataTypes.STRING,
@@ -7,5 +7,5 @@ module.exports = function(sequelize, DataTypes) {
     latitude: DataTypes.INTEGER,
     geometry: DataTypes.GEOMETRY  //postGIS column.  Possibly add 'srid' here
   });
-  return crime;
+  return Crime;
 }

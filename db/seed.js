@@ -91,10 +91,10 @@ db.sequelize.sync({
         .then(() => {
           db.sequelize.query(queryStringSF)
         })
-         .then(() => {
-          db.sequelize.query(queryStringLACounty)
-        })
-          .then(() => db.sequelize.close())
+          .then(() => {
+            db.sequelize.query(queryStringLACounty)
+          })
+            .then(() => db.sequelize.close())
     })
   })
 //*/

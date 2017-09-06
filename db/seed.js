@@ -26,7 +26,7 @@ var queryString = "COPY staginglas (lurn_sak , incident_date , stat , stat_desc 
 
 
 /* WORKING QUERY STRING START */
-/*
+///*
 db.sequelize.sync({
   force:true
 })
@@ -97,7 +97,7 @@ db.sequelize.sync({
             .then(() => db.sequelize.close())
     })
   })
-*/
+//*/
 /* WORKING QUERY STRING END */
 
 

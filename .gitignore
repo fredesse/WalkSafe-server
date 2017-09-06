@@ -2,11 +2,14 @@
 #
 .DS_Store
 
-#
+#Library
 node_modules/
 
 #
 .env
 
-#
-db/csv/*.csv
+#Environment variables
+.env
+
+#Keys
+ssh/

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-exports.module = function(db, __dirname) {
+module.exports = function(db, __dirname, sequelize) {
   fs.readdirSync(__dirname)
     .filter(function(file) {
       return (file.indexOf('.') !== 0) && (file !== 'index.js');

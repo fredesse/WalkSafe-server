@@ -2,11 +2,14 @@
 #
 .DS_Store
 
-#
+#Library
 node_modules/
 
-#
+#Environment variables
 .env
 
-#
+#Seed Crime Data
 db/csv/*.csv
+
+#Keys
+ssh/

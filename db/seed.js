@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const db = require('./config.js');
 const path = require('path');
 
@@ -10,12 +10,14 @@ var queryStringLA = "COPY staging_las (lurn_sak , incident_date , stat , stat_de
 
 ///* SF FINAL FILE
 var filePathSF = path.join(__dirname, "/CSV/staging-sf.csv");
-var queryStringSF = "COPY staging_sfs (incident_num, category, date, time, address, x, y, location) FROM '" + filePathSF + "' DELIMITER ',' CSV HEADER;"
+console.log('WHAT IS THIS FILE PATHSF', filePathSF);
+var queryStringSF = "\COPY staging_sfs (incident_num, category, date, time, address, x, y, location) FROM '" + filePathSF + "' DELIMITER ',' CSV HEADER;"
 //*/
+
 
 ///* LACOUNTY FINAL FILE
 var filePathLACounty = path.join(__dirname, "/CSV/staging-la-county.csv");
-var queryStringLACounty = "COPY staging_la_counties (crime_date, crime_year, crime_category_number, crime_category_description, street, city, state, zip, latitude, longitude, reporting_district, crime_identifier, location) FROM '" + filePathLACounty + "' DELIMITER ',' CSV HEADER;"
+var queryStringLACounty = "\COPY staging_la_counties (crime_date, crime_year, crime_category_number, crime_category_description, street, city, state, zip, latitude, longitude, reporting_district, crime_identifier, location) FROM '" + filePathLACounty + "' DELIMITER ',' CSV HEADER;"
 //*/
 
 /* INSERTING DATA QUERY END*/
@@ -24,7 +26,7 @@ var queryStringLACounty = "COPY staging_la_counties (crime_date, crime_year, cri
 
 /* DELETING EMPTY DATA QUERY START*/
 ///*
- var queryStringCleanUpLACounty = "DELETE FROM staging_la_counties WHERE longitude IS null;"
+var queryStringCleanUpLACounty = "DELETE FROM staging_la_counties WHERE longitude IS null;"
 
 // var queryStringCleanUpLACounty = "SELECT * FROM staging_la_counties WHERE id = 1;"
 // var queryStringCleanUpSF = "DELETE FROM staging_sfs WHERE x IS null;"
@@ -34,7 +36,7 @@ var queryStringLACounty = "COPY staging_la_counties (crime_date, crime_year, cri
 
 ///*
 db.sequelize.sync({
-  force:true
+  force: true
 })
   .then(() => {
     return  db.user.create({
@@ -49,7 +51,7 @@ db.sequelize.sync({
         },
         {
           contact_name: 'The Thing',
-          phone_number: 0000000000
+          phone_number: 10000000000
         },
         {
           contact_name: 'Mr. Fantastic',
@@ -100,10 +102,18 @@ db.sequelize.sync({
       ])
   })
   .then(() => {
-    return db.sequelize.query(queryStringSF)
+    if (process.env.DB_URL) { //If we are updating AWS DB
+      return;
+    } else {
+      return db.sequelize.query(queryStringSF);
+    }
   })
   .then(() => {
-    return db.sequelize.query(queryStringLACounty)
+    if (process.env.DB_URL) { //If we are updating AWS DB
+      return;
+    } else {
+      return db.sequelize.query(queryStringLACounty);
+    }
   })
   .then(() => {
     return db.sequelize.query(queryStringCleanUpLACounty);
@@ -135,4 +145,3 @@ const csvhandler = require('./csv/csv-handler');
 csvhandler();
 */
 /* csvHandler use when initial setup*/
-

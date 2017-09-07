@@ -1,9 +1,8 @@
-const fs = require('fs');
-const path = require('path');
 const Sequelize = require('sequelize');
+const readModels = require('./utils/read-models.js');
 
 const sequelize = new Sequelize('walksafe', process.env.DB_USERNAME || 'postgres', process.env.DB_PASSWORD || 'root', {
-  host: 'localhost',
+  host: process.env.DB_URL || 'localhost',
   dialect: 'postgres',
 
   pool: {
@@ -15,25 +14,10 @@ const sequelize = new Sequelize('walksafe', process.env.DB_USERNAME || 'postgres
 
 var db = {};
 
-__dirname = __dirname + '/models'
-//reads all the files in the models directory and returns each schema
-fs.readdirSync(__dirname)
-  .filter(function(file) {
-    //console.log('READ FILE file:', file);
-    return (file.indexOf('.') !== 0) && (file !== 'index.js');
-  })
-  //enters each schema into the db object
-  .forEach(function(file) {
-    var model = sequelize.import(path.join(__dirname, file));
-    db[model.name] = model;
-  });
-  console.log('This is the new db', db);
+//store models into db object
+readModels(db, __dirname + '/models/base-models', sequelize);
+readModels(db, __dirname + '/models/staging-models', sequelize);
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

@@ -5,11 +5,11 @@
 #Library
 node_modules/
 
-#
-.env
-
 #Environment variables
 .env
+
+#Seed Crime Data
+db/csv/*.csv
 
 #Keys
 ssh/

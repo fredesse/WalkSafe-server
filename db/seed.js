@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const db = require('./config.js');
 const path = require('path');
 
@@ -24,7 +24,7 @@ var queryStringLACounty = "COPY staging_la_counties (crime_date, crime_year, cri
 
 /* DELETING EMPTY DATA QUERY START*/
 ///*
- var queryStringCleanUpLACounty = "DELETE FROM staging_la_counties WHERE longitude IS null;"
+var queryStringCleanUpLACounty = "DELETE FROM staging_la_counties WHERE longitude IS null;"
 
 // var queryStringCleanUpLACounty = "SELECT * FROM staging_la_counties WHERE id = 1;"
 // var queryStringCleanUpSF = "DELETE FROM staging_sfs WHERE x IS null;"
@@ -49,7 +49,7 @@ db.sequelize.sync({
         },
         {
           contact_name: 'The Thing',
-          phone_number: 0000000000
+          phone_number: 10000000000
         },
         {
           contact_name: 'Mr. Fantastic',
@@ -63,7 +63,6 @@ db.sequelize.sync({
     }, {
       include: [db.contact]
     })
-<<<<<<< 083bb2cab2609ada6cb1a369f30aced33c5ff59f
   })
   .then(() => {
     return  db.crime_type.bulkCreate(
@@ -136,4 +135,3 @@ const csvhandler = require('./csv/csv-handler');
 csvhandler();
 */
 /* csvHandler use when initial setup*/
-})

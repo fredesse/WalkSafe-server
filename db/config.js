@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const dotenv = require('dotenv');
 
 const sequelize = new Sequelize('walksafe', process.env.DB_USERNAME || 'postgres', process.env.DB_PASSWORD || 'root', {
-  host: 'localhost',
+  host: process.env.DB_URL || 'localhost',
   dialect: 'postgres',
 
   pool: {

@@ -16,7 +16,7 @@ const sequelize = new Sequelize('walksafe', process.env.DB_USERNAME || 'postgres
 
 var db = {};
 
-__dirname = __dirname + '/models'
+__dirname = __dirname + '/models/base-models'
 //reads all the files in the models directory and returns each schema
 fs.readdirSync(__dirname)
   .filter(function(file) {
@@ -27,7 +27,6 @@ fs.readdirSync(__dirname)
     var model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;
   });
-  console.log('This is the new db', db);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

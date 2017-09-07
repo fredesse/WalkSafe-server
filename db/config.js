@@ -14,6 +14,7 @@ const sequelize = new Sequelize('walksafe', process.env.DB_USERNAME || 'postgres
 
 var db = {};
 
+//store models into db object
 readModels(db, __dirname + '/models/base-models', sequelize);
 readModels(db, __dirname + '/models/staging-models', sequelize);
 

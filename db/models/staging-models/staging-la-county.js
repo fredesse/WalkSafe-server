@@ -13,11 +13,23 @@ module.exports = function(sequelize, DataTypes) {
     reporting_district: DataTypes.INTEGER,
     crime_identifier: DataTypes.INTEGER,
     location: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
-  });
+  },{ timestamps: false }
+  );
   return Staging_la_county;
 }
 
 
 
+
+
+/*
+createdAt: {
+  type: DataTypes.DATE,
+  field: 'beginTime',
+  defaultValue: sequelize.literal('NOW()'),
+},
+updatedAt: {
+  type: DataTypes.DATE,
+  defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+},
+*/

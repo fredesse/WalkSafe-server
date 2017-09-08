@@ -8,9 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     x: DataTypes.DECIMAL,
     y: DataTypes.DECIMAL,
     location: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
-  });
+  }, { timestamps: false });
   return Staging_sf;
 }
 

@@ -15,7 +15,6 @@ module.exports = function(sequelize, DataTypes) {
     unit_name:DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
-
   });
   return Staging_la;
 }

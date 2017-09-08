@@ -1,7 +1,7 @@
 // const dotenv = require('dotenv').config();
 const db = require('./config.js');
 const path = require('path');
-const Promise = require("bluebird");
+const Promise = require('bluebird');
 
 /* INSERTING DATA QUERY START */
 
@@ -56,39 +56,37 @@ const queryStringTransfromGeomLACounty=
 /* ALTER TABLE QUERY END */
 
 
-
-
 /* DB SYNC START */
 db.sequelize.sync({
   force: true,
 })
   .then(() => db.user.create({
-      username: 'Fantastic4',
-      email: 'fantastic4@gmail.com',
-      avatarUrl: 'https://avatars2.githubusercontent.com/u/31486494?v=4&s=200',
-      accessToken: 'abc123',
-      contacts: [
-        {
-          contact_name: 'Human Torch',
-          phone_number: 1234567890,
-        },
-        {
-          contact_name: 'The Thing',
-          phone_number: 10000000000
+    username: 'Fantastic4',
+    email: 'fantastic4@gmail.com',
+    avatarUrl: 'https://avatars2.githubusercontent.com/u/31486494?v=4&s=200',
+    accessToken: 'abc123',
+    contacts: [
+      {
+        contact_name: 'Human Torch',
+        phone_number: 1234567890,
+      },
+      {
+        contact_name: 'The Thing',
+        phone_number: 10000000000,
 
-        },
-        {
-          contact_name: 'Mr. Fantastic',
-          phone_number: 1111112222,
-        },
-        {
-          contact_name: 'Ms. Fantastic',
-          phone_number: 2222222222,
-        },
-      ],
-    }, {
-      include: [db.contact],
-    }))
+      },
+      {
+        contact_name: 'Mr. Fantastic',
+        phone_number: 1111112222,
+      },
+      {
+        contact_name: 'Ms. Fantastic',
+        phone_number: 2222222222,
+      },
+    ],
+  }, {
+    include: [db.contact],
+  }))
   .then(() => db.crime_type.bulkCreate([
     { type: 'CRIMINAL HOMICIDE' },
     { type: 'FORCIBLE RAPE' },
@@ -130,15 +128,15 @@ db.sequelize.sync({
 /* DB SYNC END */
 
 
-/*CLEAN STAGING TABLES RAW QUERY START*/
-  /*CONCACT TWO COLUMN VALUE */
-  /*
+/* CLEAN STAGING TABLES RAW QUERY START */
+/* CONCACT TWO COLUMN VALUE */
+/*
   INSERT INTO crimes
   SELECT concat_ws(', ', street::text, city::text, state::text) AS address FROM staging_la_counties;
   */
 
 /* INSERTING DATA IN pgADMIN4 START */
-  /* *
+/* *
    * COPY staginglas (lurn_sak , incident_date , stat , stat_desc ,
    * street , city , zip , xy_point , incident_id , reporting_district , seq , unit_id , unit_name)
    * FROM '/Users/FloweryPao/Documents/keepSafe-Server/db/CSV/stagingla.csv' DELIMITER '#' CSV HEADER;
@@ -146,9 +144,9 @@ db.sequelize.sync({
 
 
 /* csvHandler use when initial setup */
-  /*
+/*
   const csvhandler = require('./csv/csv-handler');
   csvhandler();
   */
 /* csvHandler use when initial setup */
-/*CLEAN STAGING TABLES RAW QUERY END*/
+/* CLEAN STAGING TABLES RAW QUERY END */

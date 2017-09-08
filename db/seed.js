@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 const dotenv = require('dotenv').config();
-=======
-// const env = require('dotenv').config();
->>>>>>> Update seed file to transform staging table to porduction table
 const db = require('./config.js');
 const path = require('path');
 const Promise = require("bluebird");
@@ -39,13 +35,7 @@ const queryStringLACounty =
 
 /* DELETING EMPTY DATA QUERY START */
 const queryStringCleanUpLACounty = 'DELETE FROM staging_la_counties WHERE longitude IS null;';
-/**
- * const queryStringCleanUpLACounty = 'SELECT * FROM staging_la_counties WHERE id = 1;'
- * const queryStringCleanUpSF = 'DELETE FROM staging_sfs WHERE x IS null;'
- */
 /* DELETING EMPTY DATA QUERY END */
-
-var queryStringCleanUpLACounty = "DELETE FROM staging_la_counties WHERE longitude IS null;"
 
 
 /* ALTER TABLE QUERY START */
@@ -56,7 +46,7 @@ const queryStringFinalizeLACounty =
 const queryStringTransfromGeomLACounty=
   `UPDATE crime_la_counties SET geometry = ST_Transform(ST_SetSRID(ST_MakePoint(latitude,longitude), 3857),26944);`
 
-/*not done for sf*/
+/* NOT DONE FOR SF */
 // const queryStringFinalizeSF=
 //   `INSERT INTO crime_sfs (crime_type, crime_time, longitude, latitude, crime_identifier, address)
 //   SELECT crime_category_number, crime_date, longitude, latitude, crime_identifier, location
@@ -72,8 +62,7 @@ const queryStringTransfromGeomLACounty=
 db.sequelize.sync({
   force: true,
 })
-  .then(() =>
-    db.user.create({
+  .then(() => db.user.create({
       username: 'Fantastic4',
       email: 'fantastic4@gmail.com',
       avatarUrl: 'https://avatars2.githubusercontent.com/u/31486494?v=4&s=200',
@@ -142,27 +131,24 @@ db.sequelize.sync({
 
 
 /*CLEAN STAGING TABLES RAW QUERY START*/
-
-/*CONCACT TWO COLUMN VALUE */
-/*
-INSERT INTO crimes
-SELECT concat_ws(', ', street::text, city::text, state::text) AS address FROM staging_la_counties;
-*/
+  /*CONCACT TWO COLUMN VALUE */
+  /*
+  INSERT INTO crimes
+  SELECT concat_ws(', ', street::text, city::text, state::text) AS address FROM staging_la_counties;
+  */
 
 /* INSERTING DATA IN pgADMIN4 START */
-/* *
- * COPY staginglas (lurn_sak , incident_date , stat , stat_desc ,
- * street , city , zip , xy_point , incident_id , reporting_district , seq , unit_id , unit_name)
- * FROM '/Users/FloweryPao/Documents/keepSafe-Server/db/CSV/stagingla.csv' DELIMITER '#' CSV HEADER;
-/* RAW QUERY, IN pgADMIN4. END */
+  /* *
+   * COPY staginglas (lurn_sak , incident_date , stat , stat_desc ,
+   * street , city , zip , xy_point , incident_id , reporting_district , seq , unit_id , unit_name)
+   * FROM '/Users/FloweryPao/Documents/keepSafe-Server/db/CSV/stagingla.csv' DELIMITER '#' CSV HEADER;
+  /* RAW QUERY, IN pgADMIN4. END */
 
 
 /* csvHandler use when initial setup */
-
-/*
-const csvhandler = require('./csv/csv-handler');
-csvhandler();
-*/
-
+  /*
+  const csvhandler = require('./csv/csv-handler');
+  csvhandler();
+  */
 /* csvHandler use when initial setup */
-
+/*CLEAN STAGING TABLES RAW QUERY END*/

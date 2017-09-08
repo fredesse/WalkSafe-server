@@ -2,7 +2,8 @@ module.exports = function(sequelize, DataTypes) {
   const Staging_sf = sequelize.define('staging_sf', {
     incident_num: DataTypes.INTEGER,
     category: DataTypes.STRING,
-    date: DataTypes.DATEONLY,
+    //date: DataTypes.DATEONLY,
+    date: DataTypes.STRING,
     time: DataTypes.TIME,
     address: DataTypes.STRING,
     x: DataTypes.DECIMAL,
@@ -11,4 +12,3 @@ module.exports = function(sequelize, DataTypes) {
   }, { timestamps: false });
   return Staging_sf;
 }
-

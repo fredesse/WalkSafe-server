@@ -87,6 +87,7 @@ db.sequelize.sync({
         },
       ],
     }, {
+<<<<<<< 8c81fd26feac966052a96358258144b5385e24bd
       include: [db.contact],
     }))
   .then(() => db.crime_type.bulkCreate([
@@ -152,3 +153,79 @@ db.sequelize.sync({
   */
 /* csvHandler use when initial setup */
 /*CLEAN STAGING TABLES RAW QUERY END*/
+=======
+      include: [db.contact]
+    })
+  })
+  .then(() => {
+    return  db.crime_type.bulkCreate(
+      [
+        { type: "CRIMINAL HOMICIDE" },
+        { type: "FORCIBLE RAPE" },
+        { type: "ROBBERY" },
+        { type: "AGGRAVATED ASSAULT" },
+        { type: "BURGLARY" },
+        { type: "LARCENY THEFT" },
+        { type: "GRAND THEFT AUTO" },
+        { type: "ARSON" },
+        { type: "FORGERY" },
+        { type: "FRAUD AND NSF CHECKS" },
+        { type: "SEX OFFENSES FELONIES" },
+        { type: "SEX OFFENSES MISDEMEANORS" },
+        { type: "NON-AGGRAVATED ASSAULTS" },
+        { type: "WEAPON LAWS" },
+        { type: "OFFENSES AGAINST FAMILY" },
+        { type: "NARCOTICS" },
+        { type: "LIQUOR LAWS" },
+        { type: "DRUNK / ALCOHOL / DRUGS" },
+        { type: "DISORDERLY CONDUCT" },
+        { type: "VAGRANCY" },
+        { type: "GAMBLING" },
+        { type: "DRUNK DRIVING VEHICLE / BOAT" },
+        { type: "VEHICLE / BOATING LAWS" },
+        { type: "VANDALISM" },
+        { type: "WARRANTS" },
+        { type: "RECEIVING STOLEN PROPERTY" },
+        { type: "FEDERAL OFFENSES W/O MONEY" },
+        { type: "FEDERAL OFFENSES WITH MONEY" },
+        { type: "FELONIES MISCELLANEOUS" },
+        { type: "MISDEMEANORS MISCELLANEOUS" }
+      ])
+  })
+  .then(() => {
+    return db.sequelize.query(queryStringSF);
+  })
+  .then(() => {
+    return db.sequelize.query(queryStringLACounty);
+  })
+  .then(() => {
+    return db.sequelize.query(queryStringCleanUpLACounty);
+  })
+  .then(() => {
+    return db.sequelize.close()
+  })
+
+
+//*/
+/* WORKING QUERY STRING END */
+
+
+
+
+
+
+
+
+/*RAW QUERY, IN pgADMIN4 START*/
+// COPY staginglas (lurn_sak , incident_date , stat , stat_desc , street , city , zip , xy_point , incident_id , reporting_district , seq , unit_id , unit_name)
+// FROM '/Users/FloweryPao/Documents/keepSafe-Server/db/csv/stagingla.csv' DELIMITER '#' CSV HEADER;
+/*RAW QUERY, IN pgADMIN4. END*/
+
+
+/* csvHandler use when initial setup*/
+/*
+const csvhandler = require('./csv/csv-handler');
+csvhandler();
+*/
+/* csvHandler use when initial setup*/
+>>>>>>> Update README

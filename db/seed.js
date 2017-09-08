@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 const dotenv = require('dotenv').config();
+=======
+// const env = require('dotenv').config();
+>>>>>>> Update seed file to transform staging table to porduction table
 const db = require('./config.js');
 const path = require('path');
+const Promise = require("bluebird");
 
 /* INSERTING DATA QUERY START */
 
@@ -18,14 +23,14 @@ const path = require('path');
 // SF FINAL FILE
 const filePathSF = path.join(__dirname, '/csv/staging-sf.csv');
 const queryStringSF =
-  `COPY staging_sfs (incident_num, category, date, time, address, x, y, location)
+  `\COPY staging_sfs (incident_num, category, date, time, address, x, y, location)
   FROM '${filePathSF}' DELIMITER ',' CSV HEADER;`;
 
 
 // LACOUNTY FINAL FILE
 const filePathLACounty = path.join(__dirname, '/csv/staging-la-county.csv');
 const queryStringLACounty =
-  `COPY staging_la_counties (crime_date, crime_year, crime_category_number,
+  `\COPY staging_la_counties (crime_date, crime_year, crime_category_number,
   crime_category_description, street, city, state, zip,
   latitude, longitude, reporting_district, crime_identifier, location)
   FROM '${filePathLACounty}' DELIMITER ',' CSV HEADER;`;
@@ -44,11 +49,23 @@ var queryStringCleanUpLACounty = "DELETE FROM staging_la_counties WHERE longitud
 
 
 /* ALTER TABLE QUERY START */
-/**
- * ALTER TABLE staging_la_counties
- *RENAME crime_date TO crime_time
- */
+const queryStringFinalizeLACounty =
+  `INSERT INTO crime_la_counties (crime_type, crime_time, longitude, latitude, crime_identifier, address)
+  SELECT crime_category_number, crime_date, longitude, latitude, crime_identifier, location
+  from staging_la_counties;`;
+const queryStringTransfromGeomLACounty=
+  `UPDATE crime_la_counties SET geometry = ST_Transform(ST_SetSRID(ST_MakePoint(latitude,longitude), 3857),26944);`
+
+/*not done for sf*/
+// const queryStringFinalizeSF=
+//   `INSERT INTO crime_sfs (crime_type, crime_time, longitude, latitude, crime_identifier, address)
+//   SELECT crime_category_number, crime_date, longitude, latitude, crime_identifier, location
+//   from staging_la_counties;`;
+// incidentnum,category,date,time,address,x,y,location
+
 /* ALTER TABLE QUERY END */
+
+
 
 
 /* DB SYNC START */
@@ -118,11 +135,21 @@ db.sequelize.sync({
   .then(() => db.sequelize.query(queryStringSF))
   .then(() => db.sequelize.query(queryStringLACounty))
   .then(() => db.sequelize.query(queryStringCleanUpLACounty))
+  .then(() => db.sequelize.query(queryStringFinalizeLACounty))
+  .then(() => db.sequelize.query(queryStringTransfromGeomLACounty))
   .then(() => db.sequelize.close());
 /* DB SYNC END */
 
 
-/* RAW QUERY, IN pgADMIN4 START */
+/*CLEAN STAGING TABLES RAW QUERY START*/
+
+/*CONCACT TWO COLUMN VALUE */
+/*
+INSERT INTO crimes
+SELECT concat_ws(', ', street::text, city::text, state::text) AS address FROM staging_la_counties;
+*/
+
+/* INSERTING DATA IN pgADMIN4 START */
 /* *
  * COPY staginglas (lurn_sak , incident_date , stat , stat_desc ,
  * street , city , zip , xy_point , incident_id , reporting_district , seq , unit_id , unit_name)

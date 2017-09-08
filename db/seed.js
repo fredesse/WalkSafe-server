@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();
+// const dotenv = require('dotenv').config();
 const db = require('./config.js');
 const path = require('path');
 const Promise = require("bluebird");

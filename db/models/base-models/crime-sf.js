@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  const Crime_la_sf = sequelize.define('crime_la_sf', {
+  const Crime_sf = sequelize.define('crime_sf', {
     id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     crime_type: DataTypes.INTEGER,
     crime_time: DataTypes.DATE,
@@ -11,5 +11,5 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     timestamps: false,
   });
-  return Crime_la_sf;
+  return Crime_sf;
 }

@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node db/seed.js",
     "start": "node server.js",
+    "shell": "node db/shell/shell.js",
     "dev": "nodemon --inspect server.js"
   },
   "repository": {

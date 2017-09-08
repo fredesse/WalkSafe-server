@@ -1,10 +1,10 @@
-//This file handles GET and POST requests for authentication routes
+// This file handles GET and POST requests for authentication routes
 
 module.exports = {
   GET: {
 
   },
   POST: {
-    
-  }
-}
+
+  },
+};

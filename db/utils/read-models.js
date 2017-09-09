@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 
-module.exports = function (db, __dirname, sequelize) {
+module.exports = function readModel(db, __dirname, sequelize) {
   fs.readdirSync(__dirname)
     .filter(file => (file.indexOf('.') !== 0) && (file !== 'index.js'))
     // enters each schema into the db object

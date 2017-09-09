@@ -1,6 +1,6 @@
 const exec = require('child_process').exec;
 
-const result = function (command, cb) {
+const result = function shellFunction(command, cb) {
   const child = exec(command, (err, stdout, stderr) => {
     if (err !== null) {
       return cb(new Error(err), null);

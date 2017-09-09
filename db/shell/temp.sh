@@ -1,3 +1,2 @@
 #! /usr/bin/bash
-pwd
-psql
+cd db

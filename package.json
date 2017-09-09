@@ -8,6 +8,7 @@
     "seed": "node db/seed.js",
     "start": "node server.js",
     "shell": "node db/shell/shell.js",
+    "shell2": "node db/shell/practice/shell.js",
     "dev": "nodemon --inspect server.js"
   },
   "repository": {
@@ -32,7 +33,8 @@
     "passport-google": "^0.3.0",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.8.2"
+    "sequelize": "^4.8.2",
+    "shelljs": "^0.7.8"
   },
   "devDependencies": {
     "eslint": "^4.6.1",

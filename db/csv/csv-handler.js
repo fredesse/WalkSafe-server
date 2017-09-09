@@ -1,16 +1,14 @@
-
-const Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
 
-const filePathla = path.join(__dirname, '/staging-la.csv');
+// const filePathla = path.join(__dirname, '/staging-la.csv');
 const filePathsf = path.join(__dirname, '/staging-sf.csv');
 
 const filePath = filePathsf;
 // const filePath = filePathla;
 console.log('filePath: ', filePath);
 
-const csvhandler = function () {
+const csvHandler = function csvHandler() {
   console.log('line9');
 
   fs.readFile(filePath, 'utf8', (err, data) => {
@@ -27,4 +25,4 @@ const csvhandler = function () {
   });
 };
 
-module.exports = csvhandler;
+module.exports = csvHandler;

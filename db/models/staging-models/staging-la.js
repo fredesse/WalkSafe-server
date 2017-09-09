@@ -1,5 +1,5 @@
-module.exports = function (sequelize, DataTypes) {
-  const Staging_la = sequelize.define('staging_la', {
+module.exports = function StagingLaSchema(sequelize, DataTypes) {
+  const StagingLa = sequelize.define('staging_la', {
     lurn_sak: DataTypes.INTEGER,
     incident_date: DataTypes.DATE,
     stat: DataTypes.STRING,
@@ -16,6 +16,5 @@ module.exports = function (sequelize, DataTypes) {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
   });
-  return Staging_la;
+  return StagingLa;
 };
-

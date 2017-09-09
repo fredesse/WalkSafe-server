@@ -1,7 +1,7 @@
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const db = require('./config.js');
 const path = require('path');
-const Promise = require('bluebird');
+// const Promise = require('bluebird');
 
 /* INSERTING DATA QUERY START */
 
@@ -19,14 +19,14 @@ const Promise = require('bluebird');
 // SF FINAL FILE
 const filePathSF = path.join(__dirname, '/csv/staging-sf.csv');
 const queryStringSF =
-  `\COPY staging_sfs (incident_num, category, date, time, address, x, y, location)
+  `COPY staging_sfs (incident_num, category, date, time, address, x, y, location)
   FROM '${filePathSF}' DELIMITER ',' CSV HEADER;`;
 
 
 // LACOUNTY FINAL FILE
 const filePathLACounty = path.join(__dirname, '/csv/staging-la-county.csv');
 const queryStringLACounty =
-  `\COPY staging_la_counties (crime_date, crime_year, crime_category_number,
+  `COPY staging_la_counties (crime_date, crime_year, crime_category_number,
   crime_category_description, street, city, state, zip,
   latitude, longitude, reporting_district, crime_identifier, location)
   FROM '${filePathLACounty}' DELIMITER ',' CSV HEADER;`;
@@ -139,7 +139,8 @@ db.sequelize.sync({
 /* *
    * COPY staginglas (lurn_sak , incident_date , stat , stat_desc ,
    * street , city , zip , xy_point , incident_id , reporting_district , seq , unit_id , unit_name)
-   * FROM '/Users/FloweryPao/Documents/keepSafe-Server/db/CSV/stagingla.csv' DELIMITER '#' CSV HEADER;
+   * FROM '/Users/FloweryPao/Documents/keepSafe-Server/db/CSV/stagingla.csv'
+   DELIMITER '#' CSV HEADER;
   /* RAW QUERY, IN pgADMIN4. END */
 
 

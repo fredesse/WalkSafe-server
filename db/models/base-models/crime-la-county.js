@@ -1,5 +1,5 @@
-module.exports = function (sequelize, DataTypes) {
-  const Crime_la_county = sequelize.define('crime_la_county', {
+module.exports = function CrimeLaCountySchema(sequelize, DataTypes) {
+  const CrimeLaCounty = sequelize.define('crime_la_county', {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     crime_type: DataTypes.INTEGER,
     crime_time: DataTypes.STRING,
@@ -11,5 +11,5 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     timestamps: false,
   });
-  return Crime_la_county;
+  return CrimeLaCounty;
 };

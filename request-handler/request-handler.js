@@ -2,6 +2,7 @@
 
 const api = require('./routes/api.js');
 const auth = require('./routes/auth.js');
+const map = require('./routes/map.js');
 const path = require('path');
 
 exports.handler = function handler(req, res) {
@@ -23,11 +24,20 @@ exports.handler = function handler(req, res) {
         console.error('API error', error);
         res.end('There was an error');
       });
-
+  //Map route
+  } else if (urlParts[1] === 'map' && map[req.method].hasOwnProperty(urlParts[2])) {
+    map[req.method][urlParts[2]](req)
+      .then((data) => {
+        res.statusCode = 200;
+        res.json(data);
+      })
+      .catch((err) => {
+        console.error('map error', error);
+        res.end('There was an error');
+      });
   //Authentication route
   } else if (urlParts[1] === 'auth' && auth[req.method].hasOwnProperty(urlParts[2])) {
     auth[req.method][urlParts[2]](req, res);
-
   //If the request is neither API nor auth send a 404
   } else {
     res.statusCode = 404;

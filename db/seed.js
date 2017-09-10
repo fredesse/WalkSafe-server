@@ -44,7 +44,7 @@ const queryStringFinalizeLACounty =
   SELECT crime_category_number, crime_date, longitude, latitude, crime_identifier, location
   from staging_la_counties;`;
 const queryStringTransfromGeomLACounty=
-  `UPDATE crime_la_counties SET geometry = ST_Transform(ST_SetSRID(ST_MakePoint(latitude,longitude), 3857),26944);`
+  `UPDATE crime_la_counties SET geometry = ST_SetSRID(ST_MakePoint(longitude, latitude), 4326);`
 
 /* NOT DONE FOR SF */
 // const queryStringFinalizeSF=

@@ -7,8 +7,8 @@ module.exports = {
   GET: {
     //Retrieve geographical coordinates of requested address
     search: function getCoordinates(req) {
+      console.log('map/search get request', req);
       const address = req.query.address;
-      console.log('map/search get request', address);
 
       return mapboxClient.geocodeForward(address, function(err, data) {
         if (err) {
@@ -16,7 +16,7 @@ module.exports = {
         } else {
           console.log(data.features[0].geometry);
           //Return object containing coordinates and annotation type
-          data.features[0].geometry;
+          return data.features[0].geometry;
         }
       });
     }

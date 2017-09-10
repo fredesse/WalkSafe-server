@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node db/seed.js",
     "start": "node server.js",
-    "shell": "node db/shell/shell.js",
+    "shell": "node db/shell.js",
     "shell2": "node db/shell/practice/shell.js",
     "dev": "nodemon --inspect server.js"
   },
@@ -30,13 +30,17 @@
     "mapbox": "^1.0.0-beta9",
     "forever": "^0.15.3",
     "passport": "^0.4.0",
-    "passport-google": "^0.3.0",
+    "passport-google-oauth20": "^1.0.0",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.8.2",
     "shelljs": "^0.7.8"
   },
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "eslint": "^4.6.1",
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-config-google": "^0.9.1",

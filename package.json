@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node db/seed.js",
-    "start": "nodemon server.js",
-    "shell": "node db/shell.js",
-    "shell2": "node db/shell/practice/shell.js",
-    "dev": "nodemon --inspect server.js"
+    "seed": "babel-node db/seed.js",
+    "start": "babel-node server.js",
+    "shell": "babel-node db/shell.js",
+    "shell2": "babel-node db/shell/practice/shell.js",
+    "dev": "nodemon --exec babel-node server.js --inspect"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "mapbox": "^1.0.0-beta9",
     "forever": "^0.15.3",
     "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
     "passport-google-oauth20": "^1.0.0",
     "pg": "^7.3.0",
     "pg-hstore": "^2.3.2",

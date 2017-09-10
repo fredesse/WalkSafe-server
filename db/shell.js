@@ -6,7 +6,7 @@ const shell = require('shelljs');
 //
 //   resolve();
 // }
-//console.log('DIRNAME', __dirname);
+// console.log('DIRNAME', __dirname);
 
 const mongo = shell.exec('psql -c "copy staging_sfs (incident_num, category, date, time, address, x, y, location) FROM `csv/staging-sf.csv` DELIMITER ',' CSV HEADER;"');
 

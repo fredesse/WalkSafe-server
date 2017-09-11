@@ -3,7 +3,7 @@ import { google, facebook } from './../config';
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const FaebookStrategy = require('passport-facebook');
-// //add database here for saving usernames and contacts
+// // possibly add database here for saving usernames and contacts
 // const db = require('../db');
 
 const transformFacebookProfile = profile => ({
@@ -11,7 +11,7 @@ const transformFacebookProfile = profile => ({
   avatar: profile.picture.data.url,
 });
 
-const transformGooglePrfile = profile => ({
+const transformGoogleProfile = profile => ({
   name: profile.displayName,
   avatar: profile.image.url,
 });
@@ -20,17 +20,20 @@ console.log('What is google', google);
 console.log('What is facebook:', facebook);
 
 // Register Facebook Passport strategy
-// passport.use(new FacebookStrategy(facebook,
-//   // Called when user authorizes access to their profile
-//   async (accessToken, refreshToken, profile, done)
-//   // Return done callback and pass the profile to the transform callback
-//     => done (null, transformFacebookProfile(profile._json))
-// ));
-//
-// passport.use(new GoogleStrategy(google,
-//   async (accessToken, refreshToken, profile, done)
-//     => done (null, transformGoogleProfile(profile._json))
-//   ));
+passport.use(new FacebookStrategy(facebook,
+  // Called when user authorizes access to their profile
+  async (accessToken, refreshToken, profile, done)
+  // Return done callback and pass the profile to the transform callback
+    => done (null, transformFacebookProfile(profile._json))
+));
+
+// Register Google Passport strategy
+passport.use(new GoogleStrategy(google,
+  (accessToken, refreshToken, profile, done) => {
+    //  POSSIBLY ADD DB QUERY HERE
+    return done(null, transformGoogleProfile(profile._json));
+  },
+));
 
 // serializeUser into sessions
 passport.serializeUser((user, done) => {
@@ -47,8 +50,6 @@ passport.deserializeUser((user, done) => {
   };
   done(null, userInfo);
 });
-
-// possibly save users into database here
 
 // Export regular passport module as used by request-handler
 exports.passport = passport;

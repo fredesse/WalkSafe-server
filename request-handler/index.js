@@ -5,10 +5,11 @@ const bodyParser = require('body-parser');
 const db = require('../db/config');
 const routes = require('./request-handler.js');
 
-//AUTHENTICATION
+// AUTHENTICATION
+// const passport = require('../authentication/index');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
-const FacebookStrategy = require('passport-google-oauth20');
+const FacebookStrategy = require('passport-facebook');
 
 const transformFacebookProfile = profile => ({
   name: profile.name,
@@ -46,10 +47,20 @@ passport.deserializeUser((user, done) => done(null, user));
 
 const app = express();
 
+// THIS IS A BAD WAY TO SAVE SESSIONS
+// USE A DIFFERENT METHOD FOR PRODUCTION
+
+app.use(session({
+  secret: 'In da hood',
+  resave: false,
+  saveUninitialized: true,
+}))
+
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Start body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

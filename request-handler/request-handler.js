@@ -21,9 +21,10 @@ exports.handler = function handler(req, res) {
         res.json(data);
       })
       .catch((err) => {
+        console.error('map error', err);
         res.end('There was an error', err);
       });
-  //Map route
+  // Map route
   } else if (urlParts[1] === 'map' && map[req.method].hasOwnProperty(urlParts[2])) {
     map[req.method][urlParts[2]](req)
       .then((data) => {
@@ -31,13 +32,13 @@ exports.handler = function handler(req, res) {
         res.json(data);
       })
       .catch((err) => {
-        console.error('map error', error);
+        console.error('map error', err);
         res.end('There was an error');
       });
-  //Authentication route
+  // Authentication route
   } else if (urlParts[1] === 'auth' && auth[req.method].hasOwnProperty(urlParts[2])) {
     auth[req.method][urlParts[2]](req, res);
-  //If the request is neither API nor auth send a 404
+  // If the request is neither API nor auth nor map send a 404
   } else {
     res.statusCode = 404;
     res.end('Nothing to see here');

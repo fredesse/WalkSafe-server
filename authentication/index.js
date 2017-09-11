@@ -2,7 +2,7 @@ import { google, facebook } from './../config';
 
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
-const FaebookStrategy = require('passport-facebook');
+const FacebookStrategy = require('passport-facebook');
 // // possibly add database here for saving usernames and contacts
 // const db = require('../db');
 
@@ -16,8 +16,6 @@ const transformGoogleProfile = profile => ({
   avatar: profile.image.url,
 });
 
-console.log('What is google', google);
-console.log('What is facebook:', facebook);
 
 // Register Facebook Passport strategy
 passport.use(new FacebookStrategy(facebook,

@@ -25,6 +25,7 @@ exports.handler = function handler(req, res) {
       });
   // Map route
   } else if (urlParts[1] === 'map' && map[req.method].hasOwnProperty(urlParts[2])) {
+    // Hide this behind authentication later
     map[req.method][urlParts[2]](req)
       .then((data) => {
         res.statusCode = 200;

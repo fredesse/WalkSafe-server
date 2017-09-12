@@ -2,24 +2,26 @@
 
 // possibly include database here for sessions
 // const db = require('../../db/config');
-const passport = require('../../authentication');
+import { passport, authenticateFb, authenticateGoogle, callbackGoogle, callbackFb } from '../../authentication'
+// const passport = require('../../authentication').passport;
 
 module.exports = {
   GET: {
-    google: function authenticateGoogle(req, res) {
+    google: function authenticateGoogleFunc(req, res) {
       if (req.url === '/auth/google') {
-        passport.authenticateGoogle(req, res);
+        authenticateGoogle(req, res);
       } else if (req.url === '/auth/google/callback') {
-        passport.callbackGoogle(req, res);
+        callbackGoogle(req, res);
       } else {
         res.end('Not a valid URL');
       }
     },
-    facebook: function authenticateFacebook(req, res) {
+    facebook: function authenticateFacebookFunc(req, res) {
       if (req.url === '/auth/facebook') {
-        passport.authenticateFacebook(req, res);
+        console.log('WHAT IS AUTHENTICATE FACEBOOK req:', req);
+        authenticateFb(req, res);
       } else if (req.url === '/auth/facebook/callback') {
-        passport.callbackFb(req, res);
+        callbackFb(req, res);
       } else {
         res.end('Not a valid URL');
       }

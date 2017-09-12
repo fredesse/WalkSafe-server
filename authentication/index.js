@@ -58,7 +58,7 @@ exports.authenticateGoogle = passport.authenticate('google', { scope: ['profile'
 
 // Handle callback URL after GitHub authentication
 exports.callbackFb = (req, res) => passport.authenticate('facebook', {
-  failureRedirect: 'auth/facebook' })(req, res, () => res.redirect(`OAuthLogin://login?user=${JSON.stringify(req.user)}`));
+  failureRedirect: 'auth/facebook' })(req, res, () => res.redirect(`walksafe://login?user=${JSON.stringify(req.user)}`));
 
 exports.callbackGoogle = (req, res) => passport.authenticate('google', {
-  failureRedirect: 'auth/google' })(req, res, () => res.redirect(`OAuthLogin://login?user=${JSON.stringify(req.user)}`));
+  failureRedirect: 'auth/google' })(req, res, () => res.redirect(`walksafe://login?user=${JSON.stringify(req.user)}`));

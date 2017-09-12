@@ -1,5 +1,5 @@
 // This file handles GET and POST requests for map related routes
-
+import axios from 'axios';
 const mapbox = require('mapbox');
 const mapboxClient = new mapbox(process.env.MAPBOX_ACCESS_TOKEN);
 
@@ -19,6 +19,32 @@ module.exports = {
           return data.features[0].geometry;
         }
       });
+    },
+    crimes: function getCrimes(req) {
+      return axios.get('http://api.spotcrime.com/crimes.json', {params: {
+        lat: req.query.lat,
+        lon: req.query.lon,
+        key: process.env.SPOTCRIME_API_KEY,
+        radius: 0.01
+      }})
+        .then(res => {
+          const crimes = res.data.crimes.map(crime => {
+            return {
+              coordinates: [crime.lat, crime.lon],
+              type: 'point',
+              title: crime.type,
+              subtitle: `${crime.address} ${crime.data}`,
+              annotationImage: {
+                source: { uri: crime.type.toLowerCase() },
+                height: 45,
+                width: 45
+              },
+              id: crime.cdid.toString()
+            }
+          });
+          console.log(crimes);
+          return crimes;
+        });
     }
   }
 }

@@ -2,7 +2,7 @@
 import axios from 'axios';
 const mapbox = require('mapbox');
 const mapboxClient = new mapbox(process.env.MAPBOX_ACCESS_TOKEN);
-//jkjk
+
 module.exports = {
   GET: {
     // Retrieve geographical coordinates of requested address

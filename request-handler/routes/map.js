@@ -31,7 +31,7 @@ module.exports = {
               coordinates: [crime.lat, crime.lon],
               type: 'point',
               title: crime.type,
-              subtitle: `${crime.address} ${crime.data}`,
+              subtitle: `${crime.address} ${crime.date}`,
               annotationImage: {
                 source: { uri: crime.type.toLowerCase() },
                 height: 45,

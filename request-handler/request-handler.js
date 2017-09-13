@@ -10,7 +10,7 @@ exports.handler = function handler(req, res) {
   // urlParts[1] contains the route. ex: API
   // urlParts[2] contains the endpoint. ex: crimes
   const urlParts = req.path.split('/');
-
+    //heyheyhey
   // API route
   if (urlParts[1] === 'API' && api[req.method].hasOwnProperty(urlParts[2])) {
     // Hide this behind authentication later

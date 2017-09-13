@@ -4,7 +4,7 @@ import { google, facebook } from './../config';
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('../db/config');
-const routes = require('./request-handler.js');
+const routers = require('./request-handler.js');
 const session = require('express-session');
 
 
@@ -24,7 +24,7 @@ const transformGoogleProfile = profile => ({
   avatar: profile.image.url,
   // maybe add email here
 });
-
+//
 // console.log('What is google', google);
 // console.log('What is facebook', FacebookStrategy);
 
@@ -48,7 +48,7 @@ passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
 // UNCOMMENT ENDS HERE
-
+//
 
 const app = express();
 
@@ -61,7 +61,7 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-
+//asdasdasdas
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -78,14 +78,24 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: 'auth/facebook' }),
   (req, res) => res.redirect('walksafe://login?user=' + JSON.stringify(req.user)));
 
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile']}));
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile']}), () => console.log('81'));
+
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: 'auth/google' }),
-  (req, res) => res.redirect('walksafe://login?user=' + JSON.stringify(req.user)));
+  (req, res) => res.redirect('WalkSafe://'));
+
+// app.get('/auth/google/callback',
+//   passport.authenticate('google', { failureRedirect: 'auth/google' }),
+//   (req, res) => {
+//     console.log('86', req);
+//     console.log('87', res);
+//     return res.redirect('walksafe://login?user=' + JSON.stringify(req.user));
+//   }
+// );
 // UNCOMMENT ENDS HERE
 
 
 // Use the request-handler
-app.use(routes.handler);
+// app.use(routers.handler);
 
 module.exports = app;

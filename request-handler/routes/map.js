@@ -26,6 +26,7 @@ module.exports = {
         radius: 0.01
       }})
         .then(res => {
+          // Map crimes into annotation objects
           const crimes = res.data.crimes.map(crime => {
             return {
               coordinates: [crime.lat, crime.lon],
@@ -40,6 +41,7 @@ module.exports = {
               id: crime.cdid.toString()
             }
           });
+          // Return array of mapped crimes
           console.log(crimes);
           return crimes;
         });

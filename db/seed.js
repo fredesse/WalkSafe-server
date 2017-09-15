@@ -64,7 +64,6 @@ const dbcrimeType = () => db.crime_type.bulkCreate([
   ]);
 
 // IMPORT DATA INTO STAGING TABLE
-
   //LA
 const filePathLACounty = path.join(__dirname, '/csv/staging-la-county.csv');
 const queryStringLACounty = `\COPY staging_la_counties (crime_date, crime_year, crime_category_number,

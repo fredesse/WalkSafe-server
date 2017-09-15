@@ -45,6 +45,15 @@ module.exports = {
           console.log(crimes);
           return crimes;
         });
+    },
+    directions: function getDirections(req) {
+      // start and end coordinates are sent as parameters
+      return axios.get(`https://api.mapbox.com/directions/v5/mapbox/walking/${req.query.start};${req.query.end}.json?access_token=${process.env.MAPBOX_ACCESS_TOKEN}&geometries=geojson`)
+        .then(res => {
+          // Return directions
+          console.log(res.data.routes[0]);
+          return res.data.routes[0];
+        });
     }
   }
 }

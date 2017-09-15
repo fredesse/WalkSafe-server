@@ -61,7 +61,7 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-//asdasdasdas
+//asdasdasdasmlklkl
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -82,7 +82,11 @@ app.get('/auth/google', passport.authenticate('google', { scope: ['profile']}), 
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: 'auth/google' }),
-  (req, res) => res.redirect('WalkSafe://'));
+  (req, res) => {
+    console.log('86');
+    console.log('res',res);
+    return res.redirect('walksafe://login?user=' + JSON.stringify(req.user));
+  });
 
 // app.get('/auth/google/callback',
 //   passport.authenticate('google', { failureRedirect: 'auth/google' }),

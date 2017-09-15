@@ -4,7 +4,7 @@ import { google, facebook } from './../config';
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('../db/config');
-const routers = require('./request-handler.js');
+const routers = require('./api');
 const session = require('express-session');
 
 
@@ -100,6 +100,6 @@ app.get('/auth/google/callback',
 
 
 // Use the request-handler
-// app.use(routers.handler);
+app.use('/api', routers);
 
 module.exports = app;

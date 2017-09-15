@@ -1,79 +1,9 @@
 require('dotenv').config();
 const db = require('./config.js');
 const path = require('path');
-// const Promise = require('bluebird');
 
-/* INSERTING DATA QUERY START */
-
-// LA SAMLL FILE
-/**
-  * const filePathLA = path.join(__dirname, '/CSV/staging-la.csv');
-  * const queryStringLA =
-  * `COPY staging_las (lurn_sak , incident_date , stat ,
-  * stat_desc , street , city , zip , xy_point , incident_id ,
-  * reporting_district , seq , unit_id , unit_name) FROM '' +
-  * filePathLA + '' DELIMITER '#' CSV HEADER;`
-*/
-
-
-// SF FINAL FILE
-const filePathSF = path.join(__dirname, '/csv/staging-sf.csv');
-const queryStringSF =
-  `\COPY staging_sfs (incident_num, category, date, time, address, x, y, location)
-  FROM '${filePathSF}' DELIMITER ',' CSV HEADER;`;
-
-
-// LACOUNTY FINAL FILE
-const filePathLACounty = path.join(__dirname, '/csv/staging-la-county.csv');
-const queryStringLACounty =
-  `\COPY staging_la_counties (crime_date, crime_year, crime_category_number,
-  crime_category_description, street, city, state, zip,
-  latitude, longitude, reporting_district, crime_identifier, location)
-  FROM '${filePathLACounty}' DELIMITER ',' CSV HEADER;`;
-/* INSERTING DATA QUERY END */
-
-
-/* DELETING EMPTY DATA QUERY START */
-const queryStringCleanUpLACounty = 'DELETE FROM staging_la_counties WHERE longitude IS null;';
-/* DELETING EMPTY DATA QUERY END */
-
-
-/* ALTER TABLE QUERY START */
-const queryStringFinalizeLACounty =
-  `INSERT INTO crime_la_counties (crime_type, crime_time, longitude, latitude, crime_identifier, address)
-  SELECT crime_category_number, crime_date, longitude, latitude, crime_identifier, location
-  from staging_la_counties;`;
-const queryStringTransfromGeomLACounty =
-  `UPDATE crime_la_counties SET geometry = ST_Transform(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326), 2227);`
-
-const queryStringChangeLongitudeTypeLACounty =
-  `SELECT trunc( CAST("longitude" as numeric), 8) FROM crime_la_counties;`
-
-
-// DELETE DATA THAT IS OUT OF RANGE FOR SOME REASON
-const queryStringtest =
-  `DELETE FROM crime_la_counties WHERE latitude < -90 ::DECIMAL;`
-// ALTER TABLE crime_la_counties ALTER COLUMN longitude TYPE numeric(10,8);
-// select st_astext(geometry) from crime_la_counties;
-//ALTER TABLE crime_la_counties ADD notlatitude NUMERIC(8)
-
-/* NOT DONE FOR SF */
-// const queryStringFinalizeSF=
-//   `INSERT INTO crime_sfs (crime_type, crime_time, longitude, latitude, crime_identifier, address)
-//   SELECT crime_category_number, crime_date, longitude, latitude, crime_identifier, location
-//   from staging_la_counties;`;
-// incidentnum,category,date,time,address,x,y,location
-
-/* ALTER TABLE QUERY END */
-
-
-
-
-/* DB SYNC START */
-db.sequelize.sync({
-  force: true,
-})
-  .then(() => db.user.create({
+// INSERT USER AND CRIME CATEGORY
+const dbcreatUser = () => db.user.create({
       username: 'Fantastic4',
       email: 'fantastic4@gmail.com',
       avatarUrl: 'https://avatars2.githubusercontent.com/u/31486494?v=4&s=200',
@@ -99,14 +29,14 @@ db.sequelize.sync({
       ],
     }, {
       include: [db.contact],
-    }))
-  .then(() => db.crime_type.bulkCreate([
+    });
+const dbcrimeType = () => db.crime_type.bulkCreate([
     { type: 'CRIMINAL HOMICIDE' },
     { type: 'FORCIBLE RAPE' },
     { type: 'ROBBERY' },
-    { type: 'AGGRAVATED ASSAULT' },
+    { type: 'ASSAULT' },
     { type: 'BURGLARY' },
-    { type: 'LARCENY THEFT' },
+    { type: 'LARCENY/THEFT' },
     { type: 'GRAND THEFT AUTO' },
     { type: 'ARSON' },
     { type: 'FORGERY' },
@@ -118,12 +48,12 @@ db.sequelize.sync({
     { type: 'OFFENSES AGAINST FAMILY' },
     { type: 'NARCOTICS' },
     { type: 'LIQUOR LAWS' },
-    { type: 'DRUNK / ALCOHOL / DRUGS' },
+    { type: 'DRUG/NARCOTIC' },
     { type: 'DISORDERLY CONDUCT' },
     { type: 'VAGRANCY' },
     { type: 'GAMBLING' },
     { type: 'DRUNK DRIVING VEHICLE / BOAT' },
-    { type: 'VEHICLE / BOATING LAWS' },
+    { type: 'VEHICLE THEFT' },
     { type: 'VANDALISM' },
     { type: 'WARRANTS' },
     { type: 'RECEIVING STOLEN PROPERTY' },
@@ -131,36 +61,83 @@ db.sequelize.sync({
     { type: 'FEDERAL OFFENSES WITH MONEY' },
     { type: 'FELONIES MISCELLANEOUS' },
     { type: 'MISDEMEANORS MISCELLANEOUS' },
-  ]))
-  .then(() => db.sequelize.query(queryStringSF))
-  .then(() => db.sequelize.query(queryStringLACounty))
-  .then(() => db.sequelize.query(queryStringCleanUpLACounty))
-  .then(() => db.sequelize.query(queryStringFinalizeLACounty))
-  .then(() => db.sequelize.query(queryStringtest))
-  .then(() => db.sequelize.query(queryStringTransfromGeomLACounty))
-  .then(() => db.sequelize.close());
-/* DB SYNC END */
+  ]);
+
+// IMPORT DATA INTO STAGING TABLE
+  //LA
+const filePathLACounty = path.join(__dirname, '/csv/staging-la-county.csv');
+const queryStringLACounty = `\COPY staging_la_counties (crime_date, crime_year, crime_category_number,
+  crime_category_description, street, city, state, zip,
+  latitude, longitude, reporting_district, crime_identifier, location)
+  FROM '${filePathLACounty}' DELIMITER ',' CSV HEADER;`;
+const dbinputLAdata = () => db.sequelize.query(queryStringLACounty);
+
+  //SF
+const filePathSF = path.join(__dirname, '/csv/staging-sf.csv');
+const queryStringSF = `\COPY staging_sfs (incident_num, category, date, time, address, x, y, location)
+  FROM '${filePathSF}' DELIMITER ',' CSV HEADER;`;
+const dbinputSFdata = () => db.sequelize.query(queryStringSF);
+
+// CLEAN STAGING TABLE
+
+  //LA
+const queryStringCleanUpLACounty = `DELETE FROM staging_la_counties WHERE longitude IS null;`;
+const dbcleanLAdata = () => db.sequelize.query(queryStringCleanUpLACounty);
 
 
-/*CLEAN STAGING TABLES RAW QUERY START*/
-  /*CONCACT TWO COLUMN VALUE */
-  /*
-  INSERT INTO crimes
-  SELECT concat_ws(', ', street::text, city::text, state::text) AS address FROM staging_la_counties;
-  */
+// IMPORT DATA INTO PRODUCTION LA TABLE
 
-/* INSERTING DATA IN pgADMIN4 START */
-  /* *
-   * COPY staginglas (lurn_sak , incident_date , stat , stat_desc ,
-   * street , city , zip , xy_point , incident_id , reporting_district , seq , unit_id , unit_name)
-   * FROM '/Users/FloweryPao/Documents/keepSafe-Server/db/CSV/stagingla.csv' DELIMITER '#' CSV HEADER;
-  /* RAW QUERY, IN pgADMIN4. END */
+  //LA
+const queryStringFinalizeLACounty = `INSERT INTO crime_la_counties (crime_type, crime_time, longitude, latitude, crime_identifier, address)
+  SELECT crime_category_number, crime_date, longitude, latitude, crime_identifier, location
+  from staging_la_counties;`;
+const dbtransformLAdata = () => db.sequelize.query(queryStringFinalizeLACounty);
+
+ //SF
+const queryStringFinalizeSF =`INSERT INTO crime_sfs (crime_type, crime_time, longitude, latitude, crime_identifier, address)
+  SELECT ct.id as crime_type, sf.date, sf.x, sf.y, sf.incident_num, sf.address
+  FROM staging_sfs sf, crime_types ct
+  WHERE sf.category = ct.type;`;
+const dbtransformSFdata = () => db.sequelize.query(queryStringFinalizeSF);
+
+// CLEAN PRODUCTION LA TABLE
+
+  //LA
+const queryStringFilterLaCounty = `DELETE FROM crime_la_counties WHERE latitude < -90 ::DECIMAL;`;
+const dbfilterLAdata = () => db.sequelize.query(queryStringFilterLaCounty);
+
+  //SF
+const queryStringFilterSF = `DELETE FROM crime_sfs WHERE crime_type IS null;`;
+const dbfilterSFdata = () => db.sequelize.query(queryStringFilterSF);
+
+// SPATIALIZE LA TABLE
+
+  //LA
+const queryStringTransformGeomLACounty =`UPDATE crime_la_counties SET geometry = ST_Transform(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326), 2227);`;
+const dbSpacialLA = () => db.sequelize.query(queryStringTransformGeomLACounty);
+
+  //SF
+const queryStringTransformGeomSF =`UPDATE crime_sfs SET geometry = ST_Transform(ST_SetSRID(ST_MakePoint(longitude, latitude), 4326), 2227);`;
+const dbSpacialSF = () => db.sequelize.query(queryStringTransformGeomSF);
+/* ALTER TABLE QUERY END */
+
+//CLOSE CONNECTION
+const dbclose = () => db.sequelize.close();
 
 
-/* csvHandler use when initial setup */
-  /*
-  const csvhandler = require('./csv/csv-handler');
-  csvhandler();
-  */
-/* csvHandler use when initial setup */
-/*CLEAN STAGING TABLES RAW QUERY END*/
+//DB SYNC START
+db.sequelize.sync({
+  force: true,
+})
+  .then(dbcreatUser)
+  .then(dbcrimeType)
+  .then(dbinputSFdata)
+  .then(dbinputLAdata)
+  .then(dbcleanLAdata)
+  .then(dbtransformLAdata)
+  .then(dbfilterLAdata)
+  .then(dbtransformSFdata)
+  .then(dbfilterSFdata)
+  .then(dbSpacialLA)
+  .then(dbSpacialSF)
+  .then(dbclose);

@@ -2,6 +2,13 @@
 
 ##talk about adding PostGIS in PostGres here
 
+## Download PpgAdmin4 and csv file
+1. Create a database 'walksafe'
+2. Manually: Connect to walksafe, right click on extension add postGIS
+3. In termial: psql -d walksafe -c "CREATE EXTENSION postgis;"
+
+
+
 ##Updating EC2 DB with seed file
 1. SSH into EC2 DB
 1. Filezilla to drop new csv files into /var/www/WalkSafe-server/db/csv folder
